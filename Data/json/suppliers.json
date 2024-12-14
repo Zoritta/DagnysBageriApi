@@ -1,0 +1,26 @@
+[
+  {
+    "supplierId": 1,
+    "name": "Nordic Foods AB",
+    "address": "Storgatan 12, Stockholm",
+    "contactPerson": "Anna Svensson",
+    "phoneNumber": "070-1234567",
+    "email": "anna@nordicfoods.se"
+  },
+  {
+    "supplierId": 2,
+    "name": "Svenska Råvaror",
+    "address": "Industrivägen 45, Malmö",
+    "contactPerson": "Erik Karlsson",
+    "phoneNumber": "070-7654321",
+    "email": "erik@svenskaravaror.se"
+  },
+  {
+    "supplierId": 3,
+    "name": "Eco Farm Supplies",
+    "address": "Gröna Gatan 7, Göteborg",
+    "contactPerson": "Lisa Berg",
+    "phoneNumber": "070-9876543",
+    "email": "lisa@ecofarm.se"
+  }
+]

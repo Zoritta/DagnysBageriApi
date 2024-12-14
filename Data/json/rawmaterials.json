@@ -1,0 +1,26 @@
+[
+  {
+    "materialId": 1,
+    "itemNumber": "RM-001",
+    "name": "Organic Wheat Flour",
+    "price": 12.5
+  },
+  {
+    "materialId": 2,
+    "itemNumber": "RM-002",
+    "name": "Sugar",
+    "price": 8.75
+  },
+  {
+    "materialId": 3,
+    "itemNumber": "RM-003",
+    "name": "Butter",
+    "price": 25.0
+  },
+  {
+    "materialId": 4,
+    "itemNumber": "RM-004",
+    "name": "Eggs",
+    "price": 18.0
+  }
+]

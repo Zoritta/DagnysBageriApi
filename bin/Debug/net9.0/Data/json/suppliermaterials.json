@@ -1,0 +1,32 @@
+[
+  {
+    "supplierId": 1,
+    "rawMaterialId": 1,
+    "price": 12.5
+  },
+  {
+    "supplierId": 1,
+    "rawMaterialId": 2,
+    "price": 9.0
+  },
+  {
+    "supplierId": 2,
+    "rawMaterialId": 1,
+    "price": 13.0
+  },
+  {
+    "supplierId": 2,
+    "rawMaterialId": 3,
+    "price": 24.5
+  },
+  {
+    "supplierId": 3,
+    "rawMaterialId": 4,
+    "price": 18.0
+  },
+  {
+    "supplierId": 3,
+    "rawMaterialId": 2,
+    "price": 8.5
+  }
+]
