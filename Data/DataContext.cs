@@ -13,7 +13,21 @@ namespace DagnysBageriApi.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SupplierMaterial>().HasKey(o => new { o.SupplierId, o.RawMaterialId});
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SupplierMaterial>().HasKey(sm => new { sm.SupplierId, sm.RawMaterialId });
+
+            modelBuilder.Entity<SupplierMaterial>()
+                .HasOne(sm => sm.Supplier)
+                .WithMany(s => s.SupplierMaterials)
+                .HasForeignKey(sm => sm.SupplierId);
+
+            modelBuilder.Entity<SupplierMaterial>()
+                .HasOne(sm => sm.RawMaterial)
+                .WithMany(rm => rm.SupplierMaterials)
+                .HasForeignKey(sm => sm.RawMaterialId);
+
         }
+
     }
 }

@@ -2,25 +2,41 @@
   {
     "materialId": 1,
     "itemNumber": "RM-001",
-    "name": "Organic Wheat Flour",
-    "price": 12.5
+    "name": "Organic Wheat Flour"
   },
   {
     "materialId": 2,
     "itemNumber": "RM-002",
-    "name": "Sugar",
-    "price": 8.75
+    "name": "Sugar"
   },
   {
     "materialId": 3,
     "itemNumber": "RM-003",
-    "name": "Butter",
-    "price": 25.0
+    "name": "Butter"
   },
   {
     "materialId": 4,
     "itemNumber": "RM-004",
-    "name": "Eggs",
-    "price": 18.0
+    "name": "Eggs"
+  },
+  {
+    "materialId": 5,
+    "itemNumber": "RM-005",
+    "name": "Milk"
+  },
+  {
+    "materialId": 6,
+    "itemNumber": "RM-006",
+    "name": "Salt"
+  },
+  {
+    "materialId": 7,
+    "itemNumber": "RM-007",
+    "name": "Yeast"
+  },
+  {
+    "materialId": 8,
+    "itemNumber": "RM-008",
+    "name": "Vanilla Extract"
   }
 ]

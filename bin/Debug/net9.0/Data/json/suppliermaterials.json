@@ -2,31 +2,51 @@
   {
     "supplierId": 1,
     "rawMaterialId": 1,
-    "price": 12.5
+    "pricePerKg": 12.5
   },
   {
     "supplierId": 1,
     "rawMaterialId": 2,
-    "price": 9.0
+    "pricePerKg": 9.0
   },
   {
     "supplierId": 2,
     "rawMaterialId": 1,
-    "price": 13.0
+    "pricePerKg": 13.0
   },
   {
     "supplierId": 2,
     "rawMaterialId": 3,
-    "price": 24.5
+    "pricePerKg": 24.5
   },
   {
     "supplierId": 3,
     "rawMaterialId": 4,
-    "price": 18.0
+    "pricePerKg": 18.0
   },
   {
     "supplierId": 3,
     "rawMaterialId": 2,
-    "price": 8.5
+    "pricePerKg": 8.5
+  },
+  {
+    "supplierId": 1,
+    "rawMaterialId": 5,
+    "pricePerKg": 10.2
+  },
+  {
+    "supplierId": 2,
+    "rawMaterialId": 6,
+    "pricePerKg": 2.7
+  },
+  {
+    "supplierId": 3,
+    "rawMaterialId": 7,
+    "pricePerKg": 4.1
+  },
+  {
+    "supplierId": 1,
+    "rawMaterialId": 8,
+    "pricePerKg": 34.8
   }
 ]
