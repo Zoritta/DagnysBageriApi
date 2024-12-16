@@ -143,3 +143,4 @@ C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net9.0\DagnysBa.749
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\rawmaterials.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\suppliermaterials.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\suppliers.json
+C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net9.0\DagnysBageriApi.sourcelink.json
