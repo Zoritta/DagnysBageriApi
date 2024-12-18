@@ -1,8 +1,15 @@
 
+using DagnysBageriApi.Data;
+using Microsoft.AspNetCore.Mvc;
+
 namespace DagnysBageriApi.Controllers
 {
-    public class SupplierController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class SupplierController(DataContext context) : ControllerBase
     {
-        
+        private readonly DataContext _context = context;
+
+        // [HttpGet()]
     }
 }

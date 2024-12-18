@@ -3,7 +3,6 @@
 using DagnysBageriApi.Data;
 using DagnysBageriApi.Entities;
 using DagnysBageriApi.Models.RequestModels;
-using DagnysBageriApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
