@@ -57,7 +57,7 @@ namespace DagnysBageriApi.Controllers
             }
             return Ok(new { success = true,  data = material });
         }
-        [HttpPost("{add-to-supplier}")]
+        [HttpPost("add-to-supplier")]
         public async Task<ActionResult> AddMaterialToSupplier(AddMaterialToSupplierRequest request)
         {
             var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => EF.Functions.Like(s.Name, request.SupplierName));
