@@ -16,8 +16,8 @@ namespace DagnysBageriApi.Controllers
     {
         private readonly DataContext _context = context;
 
-        [HttpGet("{supplierName}/products")]
-        public async Task<IActionResult> GetSupplierProducts(string supplierName)
+        [HttpGet("{supplierName}/materials")]
+        public async Task<IActionResult> GetSupplierMaterials(string supplierName)
         {
             supplierName = supplierName.Trim();
             var supplier = await _context.Suppliers
@@ -30,18 +30,18 @@ namespace DagnysBageriApi.Controllers
                 return NotFound(new { success = false, message = $"Supplier '{supplierName}' not found." });
             }
 
-            var products = supplier.SupplierMaterials.Select(sm => new
+            var rawMaterials = supplier.SupplierMaterials.Select(sm => new
             {
                 ProductName = sm.RawMaterial.Name,
                 ItemNumber = sm.RawMaterial.ItemNumber,
                 PricePerKg = sm.PricePerKg
             });
 
-            return Ok(new { success = true, supplierName = supplier.Name, products });
+            return Ok(new { success = true, supplierName = supplier.Name, rawMaterials });
         }
 
-        [HttpPost("{supplierName}/products")]
-        public async Task<ActionResult> AddProductToSupplier(string supplierName, [FromBody] AddMaterialToSupplierRequest request)
+        [HttpPost("{supplierName}/materials")]
+        public async Task<ActionResult> AddMaterialToSupplier(string supplierName, [FromBody] AddMaterialToSupplierRequest request)
         {
             supplierName = supplierName.Trim();
             var supplier = await _context.Suppliers.FirstOrDefaultAsync(s =>
@@ -80,7 +80,7 @@ namespace DagnysBageriApi.Controllers
             return Ok(new {success = true, message = $"Product '{request.Name}' added to supplier '{supplierName}'."});
         }
 
-        [HttpPatch("{supplierName}/products/{itemNumber}/price")]
+        [HttpPatch("{supplierName}/materials/{itemNumber}/price")]
         public async Task<ActionResult> UpdateMaterialPrice(string supplierName, string itemNumber, [FromBody] UpdatePriceRequest request)
         {
             supplierName = supplierName.Trim().ToLower();
