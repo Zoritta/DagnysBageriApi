@@ -5,6 +5,7 @@ using DagnysBageriApi.Entities;
 using DagnysBageriApi.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DagnysBageriApi.Controllers
@@ -79,6 +80,36 @@ namespace DagnysBageriApi.Controllers
             return Ok(new {success = true, message = $"Product '{request.Name}' added to supplier '{supplierName}'."});
         }
 
+        [HttpPatch("{supplierName}/products/{itemNumber}/price")]
+        public async Task<ActionResult> UpdateMaterialPrice(string supplierName, string itemNumber, [FromBody] UpdatePriceRequest request)
+        {
+            supplierName = supplierName.Trim().ToLower();
+            itemNumber = itemNumber.Trim().ToLower();
+            var supplierMaterial = await _context.SupplierMaterials
+                .Include(sm => sm.Supplier)
+                .Include(sm => sm.RawMaterial)
+                .FirstOrDefaultAsync(sm =>
+                    sm.Supplier.Name.ToLower().Replace(" ", "") == supplierName &&
+                    sm.RawMaterial.ItemNumber.ToLower().Replace(" ", "") == itemNumber);
 
+
+
+            if (supplierMaterial == null)
+            {
+                return NotFound(new { success = false, message = $"We could not find material'{itemNumber}' for supplier '{supplierName}'!" });
+            }
+
+            supplierMaterial.PricePerKg = request.NewPricePerKg;
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                success = true,
+                message = $"Price updated for product '{supplierMaterial.RawMaterial.Name}' under requested supplier.",
+                newPrice = supplierMaterial.PricePerKg
+            });
+        }
     }
+
 }
+
