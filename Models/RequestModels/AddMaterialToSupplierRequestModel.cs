@@ -2,7 +2,7 @@
 
 namespace DagnysBageriApi.Models.RequestModels
 {
-    public class AddMaterialToSupplierRequest
+    public class AddMaterialToSupplierRequestModel
     {
         public string SupplierName { get; set; }
         public string ItemNumber { get; set; }

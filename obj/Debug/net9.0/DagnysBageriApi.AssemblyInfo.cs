@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DagnysBageriApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49db3637e63be8c8ece939af337f1fa82e77721b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+149a319bd38323e83967300d73cb72933635e17a")]
 [assembly: System.Reflection.AssemblyProductAttribute("DagnysBageriApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DagnysBageriApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

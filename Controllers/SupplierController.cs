@@ -38,7 +38,7 @@ namespace DagnysBageriApi.Controllers
         }
 
         [HttpPost("{supplierName}/materials")]
-        public async Task<ActionResult> AddMaterialToSupplier(string supplierName, [FromBody] AddMaterialToSupplierRequest request)
+        public async Task<ActionResult> AddMaterialToSupplier(string supplierName, [FromBody] AddMaterialToSupplierRequestModel request)
         {
             supplierName = supplierName.Trim().ToLower();
             var supplier = await _context.Suppliers.FirstOrDefaultAsync(s =>
@@ -78,7 +78,7 @@ namespace DagnysBageriApi.Controllers
         }
 
         [HttpPatch("{supplierName}/materials/{itemNumber}/price")]
-        public async Task<ActionResult> UpdateMaterialPrice(string supplierName, string itemNumber, [FromBody] UpdatePriceRequest request)
+        public async Task<ActionResult> UpdateMaterialPrice(string supplierName, string itemNumber, [FromBody] UpdatePriceRequestModel request)
         {
             supplierName = supplierName.Trim().ToLower();
             itemNumber = itemNumber.Trim().ToLower();

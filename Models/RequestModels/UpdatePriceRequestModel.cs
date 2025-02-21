@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DagnysBageriApi.Models.RequestModels
 {
-    public class UpdatePriceRequest
+    public class UpdatePriceRequestModel
     {
         public int SupplierId { get; set; }
         public int ItemNumber { get; set; }
