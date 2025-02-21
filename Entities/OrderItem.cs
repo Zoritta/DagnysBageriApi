@@ -9,7 +9,6 @@ namespace DagnysBageriApi.Entities
         public Product Product { get; set; }
 
         public int Quantity { get; set; }
-        public decimal PricePerUnit { get; set; }
-        public decimal TotalPrice => Quantity * PricePerUnit;
+        public decimal Price{ get; set; }
     }
 }
