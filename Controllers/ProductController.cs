@@ -17,7 +17,6 @@ namespace DagnysBageriApi.Controllers
             _context = context;
         }
 
-        // Add a new product
         [HttpPost]
         public async Task<ActionResult> AddProduct([FromBody] AddProductRequestModel request)
         {
@@ -31,7 +30,7 @@ namespace DagnysBageriApi.Controllers
                 Name = request.ProductName,
                 Price = request.PricePerUnit,
                 Weight = request.Weight,
-                PackSize = request.QuantityPerPackage,
+                QuantityPerPack = request.QuantityPerPackage,
                 BestBeforeDate = request.ExpirationDate,
                 ManufactureDate = request.ManufacturingDate
             };
@@ -42,7 +41,6 @@ namespace DagnysBageriApi.Controllers
             return Ok(new { success = true, message = $"Product '{product.Name}' added successfully." });
         }
 
-        // List all products
         [HttpGet]
         public async Task<ActionResult> GetAllProducts()
         {
@@ -55,7 +53,6 @@ namespace DagnysBageriApi.Controllers
             return Ok(new { success = true, products });
         }
 
-        // Retrieve a specific product
         [HttpGet("{productId}")]
         public async Task<ActionResult> GetProduct(int productId)
         {
@@ -70,7 +67,6 @@ namespace DagnysBageriApi.Controllers
             return Ok(new { success = true, product });
         }
 
-        // Update a product’s price for a specific supplier
         [HttpPut("{productId}/price")]
         public async Task<ActionResult> UpdateProductPrice(int productId, [FromBody] UpdatePriceRequestModel request)
         {
@@ -87,7 +83,6 @@ namespace DagnysBageriApi.Controllers
                 return NotFound(new { success = false, message = $"Product with ID {productId} not found." });
             }
 
-            // Fetch the supplier's material entry
             var supplierMaterial = await _context.SupplierMaterials
                 .Include(sm => sm.Supplier)
                 .Include(sm => sm.RawMaterial)
@@ -99,7 +94,6 @@ namespace DagnysBageriApi.Controllers
                 return NotFound(new { success = false, message = $"Supplier with ID {request.SupplierId} and material with item number {request.ItemNumber} not found." });
             }
 
-            // Update the price per kilogram for the specific supplier's material
             supplierMaterial.PricePerKg = request.NewPricePerKg;
 
             await _context.SaveChangesAsync();
