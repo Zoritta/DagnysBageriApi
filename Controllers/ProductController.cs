@@ -53,34 +53,38 @@ namespace DagnysBageriApi.Controllers
             return Ok(new { success = true, products });
         }
 
-        [HttpGet("{productId}")]
-        public async Task<ActionResult> GetProduct(int productId)
+        [HttpGet("name/{productName}")]
+        public async Task<ActionResult> GetProductByName(string productName)
         {
+            productName = productName.Trim().ToLower();
+
             var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.ProductId == productId);
+                .FirstOrDefaultAsync(p => p.Name.ToLower() == productName);
 
             if (product == null)
             {
-                return NotFound(new { success = false, message = $"Product with ID {productId} not found." });
+                return NotFound(new { success = false, message = $"Product '{productName}' not found." });
             }
 
             return Ok(new { success = true, product });
         }
 
-        [HttpPut("{productId}/price")]
-        public async Task<ActionResult> UpdateProductPrice(int productId, [FromBody] UpdatePriceRequestModel request)
+        [HttpPut("name/{productName}/price")]
+        public async Task<ActionResult> UpdateProductPriceByName(string productName, [FromBody] UpdatePriceRequestModel request)
         {
             if (request == null || request.NewPricePerKg <= 0)
             {
                 return BadRequest(new { success = false, message = "Invalid price data." });
             }
 
+            productName = productName.Trim().ToLower();
+
             var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.ProductId == productId);
+                .FirstOrDefaultAsync(p => p.Name.ToLower() == productName);
 
             if (product == null)
             {
-                return NotFound(new { success = false, message = $"Product with ID {productId} not found." });
+                return NotFound(new { success = false, message = $"Product '{productName}' not found." });
             }
 
             var supplierMaterial = await _context.SupplierMaterials
