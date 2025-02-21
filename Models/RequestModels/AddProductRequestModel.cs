@@ -1,5 +1,3 @@
-
-
 namespace DagnysBageriApi.Models.RequestModels
 {
     public class AddProductRequestModel

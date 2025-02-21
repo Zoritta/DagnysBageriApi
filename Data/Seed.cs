@@ -60,6 +60,25 @@ namespace DagnysBageriApi.Data
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task LoadProducts(DataContext context)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            if (context.Products.Any()) return;
+
+            var json = File.ReadAllText("Data/json/products.json");
+            var products = JsonSerializer.Deserialize<List<Product>>(json, options);
+
+            if (products is not null && products.Count > 0)
+            {
+                await context.Products.AddRangeAsync(products);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }
     

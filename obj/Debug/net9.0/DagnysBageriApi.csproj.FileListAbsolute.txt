@@ -144,3 +144,6 @@ C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\ra
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\suppliermaterials.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\suppliers.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net9.0\DagnysBageriApi.sourcelink.json
+C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\customers.json
+C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\orderItems.json
+C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net9.0\Data\json\products.json
