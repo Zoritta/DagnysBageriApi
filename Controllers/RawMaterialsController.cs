@@ -1,8 +1,4 @@
-
-
 using DagnysBageriApi.Data;
-using DagnysBageriApi.Entities;
-using DagnysBageriApi.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

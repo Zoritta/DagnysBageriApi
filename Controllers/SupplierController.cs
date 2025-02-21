@@ -1,12 +1,9 @@
 
-using System.Reflection.Metadata.Ecma335;
 using DagnysBageriApi.Data;
 using DagnysBageriApi.Entities;
 using DagnysBageriApi.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DagnysBageriApi.Controllers
 {
@@ -43,18 +40,18 @@ namespace DagnysBageriApi.Controllers
         [HttpPost("{supplierName}/materials")]
         public async Task<ActionResult> AddMaterialToSupplier(string supplierName, [FromBody] AddMaterialToSupplierRequest request)
         {
-            supplierName = supplierName.Trim();
+            supplierName = supplierName.Trim().ToLower();
             var supplier = await _context.Suppliers.FirstOrDefaultAsync(s =>
-            s.Name.ToLower().Replace(" ", "") == supplierName.ToLower());
+            s.Name.ToLower().Replace(" ", "") == supplierName);
             if (supplier == null)
             {
-                return NotFound(new { success = false, message = $"Supplier '{supplierName}' not found!"});
+                return NotFound(new { success = false, message = $"Supplier '{supplierName}' not found!" });
             }
-            if(await _context.SupplierMaterials.AnyAsync(sm => 
+            if (await _context.SupplierMaterials.AnyAsync(sm =>
             sm.SupplierId == supplier.SupplierId &&
             sm.RawMaterial.ItemNumber == request.ItemNumber))
             {
-                return BadRequest(new {success = false, message = $" Product '{request.ItemNumber}' already exists for '{supplierName}'!"});
+                return BadRequest(new { success = false, message = $" Product '{request.ItemNumber}' already exists for '{supplierName}'!" });
             }
 
             var rawMaterial = await _context.RawMaterials
@@ -77,7 +74,7 @@ namespace DagnysBageriApi.Controllers
             _context.SupplierMaterials.Add(supplierMaterial);
             await _context.SaveChangesAsync();
 
-            return Ok(new {success = true, message = $"Product '{request.Name}' added to supplier '{supplierName}'."});
+            return Ok(new { success = true, message = $"Product '{request.Name}' added to supplier '{supplierName}'." });
         }
 
         [HttpPatch("{supplierName}/materials/{itemNumber}/price")]
