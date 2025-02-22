@@ -9,7 +9,7 @@ namespace DagnysBageriApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SupplierController(DataContext context) : ControllerBase
+    public class SuppliersController(DataContext context) : ControllerBase
     {
         private readonly DataContext _context = context;
 
@@ -96,7 +96,7 @@ namespace DagnysBageriApi.Controllers
                 return NotFound(new { success = false, message = $"We could not find material'{itemNumber}' for supplier '{supplierName}'!" });
             }
 
-            supplierMaterial.PricePerKg = request.NewPricePerKg;
+            supplierMaterial.PricePerKg = request.NewPrice;
             await _context.SaveChangesAsync();
 
             return Ok(new

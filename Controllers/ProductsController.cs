@@ -8,11 +8,11 @@ namespace DagnysBageriApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public ProductController(DataContext context)
+        public ProductsController(DataContext context)
         {
             _context = context;
         }
@@ -72,42 +72,32 @@ namespace DagnysBageriApi.Controllers
         [HttpPut("name/{productName}/price")]
         public async Task<ActionResult> UpdateProductPriceByName(string productName, [FromBody] UpdatePriceRequestModel request)
         {
-            if (request == null || request.NewPricePerKg <= 0)
+            if (request == null || request.NewPrice <= 0)
             {
                 return BadRequest(new { success = false, message = "Invalid price data." });
             }
 
-            productName = productName.Trim().ToLower();
+            productName = productName.Trim().Replace(" ", "").ToLower(); ;
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.Name.ToLower() == productName);
+                .FirstOrDefaultAsync(p => p.Name.Trim().Replace(" ", "").ToLower() == productName);
 
             if (product == null)
             {
                 return NotFound(new { success = false, message = $"Product '{productName}' not found." });
             }
 
-            var supplierMaterial = await _context.SupplierMaterials
-                .Include(sm => sm.Supplier)
-                .Include(sm => sm.RawMaterial)
-                .FirstOrDefaultAsync(sm => sm.SupplierId == request.SupplierId &&
-                                           sm.RawMaterial.ItemNumber == request.ItemNumber);
-
-            if (supplierMaterial == null)
-            {
-                return NotFound(new { success = false, message = $"Supplier with ID {request.SupplierId} and material with item number {request.ItemNumber} not found." });
-            }
-
-            supplierMaterial.PricePerKg = request.NewPricePerKg;
+            product.Price = request.NewPrice;
 
             await _context.SaveChangesAsync();
 
             return Ok(new
             {
                 success = true,
-                message = $"Price updated for product '{product.Name}' under the specified supplier.",
-                newPrice = supplierMaterial.PricePerKg
+                message = $"Price for product '{product.Name}' has been updated.",
+                newPrice = product.Price
             });
         }
+
     }
 }

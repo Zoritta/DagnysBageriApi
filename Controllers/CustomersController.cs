@@ -8,7 +8,7 @@ namespace DagnysBageriApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController(DataContext context) : ControllerBase
+    public class CustomersController(DataContext context) : ControllerBase
     {
         private readonly DataContext _context = context;
 
@@ -23,7 +23,7 @@ namespace DagnysBageriApi.Controllers
         public async Task<IActionResult> GetCustomer(int customerId)
         {
             var customer = await _context.Customers
-                .Include(c => c.Orders) // Include order history
+                .Include(c => c.Orders)
                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             if (customer == null)
@@ -56,7 +56,6 @@ namespace DagnysBageriApi.Controllers
             return CreatedAtAction(nameof(GetCustomer), new { customerId = customer.CustomerId }, new { success = true, message = "Customer created successfully!", customer });
         }
 
-
         [HttpPatch("{customerId}")]
         public async Task<IActionResult> UpdateCustomer(int customerId, [FromBody] UpdateCustomerRequestModel request)
         {
@@ -73,6 +72,19 @@ namespace DagnysBageriApi.Controllers
 
             await _context.SaveChangesAsync();
             return Ok(new { success = true, message = "Customer updated successfully!" });
+        }
+
+        [HttpPatch("{customerId}/contact-person")]
+        public async Task<IActionResult> UpdateContactPerson(int customerId, [FromBody] string newContactPerson)
+        {
+            var customer = await _context.Customers.FindAsync(customerId);
+            if (customer == null)
+                return NotFound(new { success = false, message = $"Customer with ID '{customerId}' not found." });
+
+            customer.ContactPerson = newContactPerson;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Contact person updated successfully!" });
         }
 
         [HttpDelete("{customerId}")]
@@ -95,7 +107,7 @@ namespace DagnysBageriApi.Controllers
             var customer = await _context.Customers
                 .Include(c => c.Orders)
                     .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)  
+                        .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(c => c.StoreName.ToLower() == customerName);
 
             if (customer == null)
@@ -129,6 +141,44 @@ namespace DagnysBageriApi.Controllers
 
             return Ok(new { success = true, customer = customerDetails });
         }
+
+        [HttpGet("{customerId}/purchases")]
+        public async Task<IActionResult> GetCustomerPurchases(int customerId)
+        {
+            var customer = await _context.Customers
+                .Include(c => c.Orders)
+                    .ThenInclude(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == customerId);
+
+            if (customer == null)
+            {
+                return NotFound(new { success = false, message = $"Customer with ID '{customerId}' not found." });
+            }
+
+            var purchases = customer.Orders
+                .SelectMany(o => o.OrderItems)
+                .GroupBy(oi => oi.Product.Name)
+                .Select(g => new
+                {
+                    ProductName = g.Key,
+                    TotalQuantity = g.Sum(oi => oi.Quantity),
+                    TotalSpent = g.Sum(oi => oi.TotalPrice)
+                })
+                .ToList();
+
+            return Ok(new
+            {
+                success = true,
+                customer = new
+                {
+                    customer.CustomerId,
+                    customer.StoreName,
+                    customer.ContactPerson,
+                    customer.Email
+                },
+                purchases
+            });
+        }
     }
 }
-

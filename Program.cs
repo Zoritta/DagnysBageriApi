@@ -27,6 +27,9 @@ try
     await Seed.LoadRawMaterials(context);
     await Seed.LoadSupplierMaterials(context);
     await Seed.LoadProducts(context);
+    await Seed.LoadCustomers(context);     
+    await Seed.LoadOrders(context);        
+    await Seed.LoadOrderItems(context);
 
 }
 catch (Exception ex)
