@@ -8,6 +8,6 @@ namespace DagnysBageriApi.Entities
         public string ContactPerson { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public IList<SupplierMaterial> SupplierMaterials { get; set; }
+        public ICollection<SupplierMaterial> SupplierMaterials { get; set; }
     }
 }

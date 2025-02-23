@@ -9,6 +9,11 @@ namespace DagnysBageriApi.Entities
         public int QuantityPerPack { get; set; }
         public DateTime BestBeforeDate { get; set; }
         public DateTime ManufactureDate { get; set; }
+
+        internal bool Any()
+        {
+            throw new NotImplementedException();
+        }
         public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); 
     }
 }

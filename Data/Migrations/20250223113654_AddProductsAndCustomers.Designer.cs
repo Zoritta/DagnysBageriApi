@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DagnysBageriApi.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250223085523_MysqlDatabase")]
-    partial class MysqlDatabase
+    [Migration("20250223113654_AddProductsAndCustomers")]
+    partial class AddProductsAndCustomers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,51 +54,6 @@ namespace DagnysBageriApi.Data.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("OrderNumber")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.OrderItem", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("DagnysBageriApi.Entities.Product", b =>
@@ -197,36 +152,6 @@ namespace DagnysBageriApi.Data.Migrations
                     b.ToTable("SupplierMaterials");
                 });
 
-            modelBuilder.Entity("DagnysBageriApi.Entities.Order", b =>
-                {
-                    b.HasOne("DagnysBageriApi.Entities.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.OrderItem", b =>
-                {
-                    b.HasOne("DagnysBageriApi.Entities.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DagnysBageriApi.Entities.Product", "Product")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("DagnysBageriApi.Entities.SupplierMaterial", b =>
                 {
                     b.HasOne("DagnysBageriApi.Entities.RawMaterial", "RawMaterial")
@@ -244,21 +169,6 @@ namespace DagnysBageriApi.Data.Migrations
                     b.Navigation("RawMaterial");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.Customer", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.Order", b =>
-                {
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("DagnysBageriApi.Entities.Product", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("DagnysBageriApi.Entities.RawMaterial", b =>

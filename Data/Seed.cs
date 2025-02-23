@@ -1,6 +1,6 @@
 using DagnysBageriApi.Entities;
 using DagnysBageriApi.Data;
-using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace DagnysBageriApi
 {
@@ -10,14 +10,12 @@ namespace DagnysBageriApi
         {
             if (!context.Suppliers.Any())
             {
-                var suppliers = new List<Supplier>
+                var suppliers = await LoadFromJsonAsync<List<Supplier>>("Data/json/suppliers.json");
+                if (suppliers != null)
                 {
-                    new Supplier { Name = "Supplier 1", Address = "Address 1", ContactPerson = "John Doe", PhoneNumber = "1234567890", Email = "john@example.com" },
-                    new Supplier { Name = "Supplier 2", Address = "Address 2", ContactPerson = "Jane Doe", PhoneNumber = "0987654321", Email = "jane@example.com" }
-                };
-
-                await context.Suppliers.AddRangeAsync(suppliers);
-                await context.SaveChangesAsync();
+                    await context.Suppliers.AddRangeAsync(suppliers);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -25,14 +23,12 @@ namespace DagnysBageriApi
         {
             if (!context.RawMaterials.Any())
             {
-                var rawMaterials = new List<RawMaterial>
+                var rawMaterials = await LoadFromJsonAsync<List<RawMaterial>>("Data/json/rawMaterials.json");
+                if (rawMaterials != null)
                 {
-                    new RawMaterial { ItemNumber = "RM001", Name = "Flour" },
-                    new RawMaterial { ItemNumber = "RM002", Name = "Sugar" }
-                };
-
-                await context.RawMaterials.AddRangeAsync(rawMaterials);
-                await context.SaveChangesAsync();
+                    await context.RawMaterials.AddRangeAsync(rawMaterials);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -40,14 +36,13 @@ namespace DagnysBageriApi
         {
             if (!context.SupplierMaterials.Any())
             {
-                var supplierMaterials = new List<SupplierMaterial>
-                {
-                    new SupplierMaterial { SupplierId = 1, RawMaterialId = 1, PricePerKg = 20.5m },
-                    new SupplierMaterial { SupplierId = 2, RawMaterialId = 2, PricePerKg = 10.5m }
-                };
+                var supplierMaterials = await LoadFromJsonAsync<List<SupplierMaterial>>("Data/json/supplierMaterials.json");
 
-                await context.SupplierMaterials.AddRangeAsync(supplierMaterials);
-                await context.SaveChangesAsync();
+                if (supplierMaterials != null && supplierMaterials.Any())
+                {
+                    await context.SupplierMaterials.AddRangeAsync(supplierMaterials);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -55,14 +50,13 @@ namespace DagnysBageriApi
         {
             if (!context.Products.Any())
             {
-                var products = new List<Product>
-                {
-                    new Product { Name = "Bread", Price = 50.0m, Weight = 1.0m, QuantityPerPack = 1, BestBeforeDate = DateTime.Now.AddDays(7), ManufactureDate = DateTime.Now },
-                    new Product { Name = "Cake", Price = 30.0m, Weight = 0.5m, QuantityPerPack = 1, BestBeforeDate = DateTime.Now.AddDays(3), ManufactureDate = DateTime.Now }
-                };
+                var products = await LoadFromJsonAsync<List<Product>>("Data/json/products.json"); 
 
-                await context.Products.AddRangeAsync(products);
-                await context.SaveChangesAsync();
+                if (products != null && products.Any())
+                {
+                    await context.Products.AddRangeAsync(products);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -70,14 +64,12 @@ namespace DagnysBageriApi
         {
             if (!context.Customers.Any())
             {
-                var customers = new List<Customer>
+                var customers = await LoadFromJsonAsync<List<Customer>>("Data/json/customers.json"); 
+                if (customers != null && customers.Any())
                 {
-                    new Customer { StoreName = "Bakery A", ContactPerson = "Alice", PhoneNumber = "1234567890", Email = "alice@bakery.com", DeliveryAddress = "Address 1", InvoiceAddress = "Address 1" },
-                    new Customer { StoreName = "Bakery B", ContactPerson = "Bob", PhoneNumber = "0987654321", Email = "bob@bakery.com", DeliveryAddress = "Address 2", InvoiceAddress = "Address 2" }
-                };
-
-                await context.Customers.AddRangeAsync(customers);
-                await context.SaveChangesAsync();
+                    await context.Customers.AddRangeAsync(customers);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -85,14 +77,12 @@ namespace DagnysBageriApi
         {
             if (!context.Orders.Any())
             {
-                var orders = new List<Order>
+                var orders = await LoadFromJsonAsync<List<Order>>("Data/json/orders.json");
+                if (orders != null && orders.Any())
                 {
-                    new Order { OrderDate = DateTime.Now, OrderNumber = "ORD001", CustomerId = 1 },
-                    new Order { OrderDate = DateTime.Now, OrderNumber = "ORD002", CustomerId = 2 }
-                };
-
-                await context.Orders.AddRangeAsync(orders);
-                await context.SaveChangesAsync();
+                    await context.Orders.AddRangeAsync(orders);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
@@ -100,14 +90,34 @@ namespace DagnysBageriApi
         {
             if (!context.OrderItems.Any())
             {
-                var orderItems = new List<OrderItem>
+                var orderItems = await LoadFromJsonAsync<List<OrderItem>>("Data/json/orderItems.json");
+                if (orderItems != null && orderItems.Any())
                 {
-                    new OrderItem { OrderId = 1, ProductId = 1, Quantity = 2, Price = 50.0m },
-                    new OrderItem { OrderId = 2, ProductId = 2, Quantity = 1, Price = 30.0m }
-                };
+                    await context.OrderItems.AddRangeAsync(orderItems);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+        private static async Task<T?> LoadFromJsonAsync<T>(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine($"File not found: {filePath}");
+                return default;
+            }
 
-                await context.OrderItems.AddRangeAsync(orderItems);
-                await context.SaveChangesAsync();
+            try
+            {
+                var json = await File.ReadAllTextAsync(filePath);
+                return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading JSON file {filePath}: {ex.Message}");
+                return default;
             }
         }
     }
