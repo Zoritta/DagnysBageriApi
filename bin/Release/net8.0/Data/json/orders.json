@@ -1,0 +1,14 @@
+[
+  {
+    "orderId": 1,
+    "orderDate": "2025-02-10T14:30:00",
+    "orderNumber": "ORD-001",
+    "customerId": 1
+  },
+  {
+    "orderId": 2,
+    "orderDate": "2025-02-15T10:00:00",
+    "orderNumber": "ORD-002",
+    "customerId": 2
+  }
+]
