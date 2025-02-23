@@ -1,0 +1,42 @@
+[
+  {
+    "supplierId": 1,
+    "name": "Nordic Foods AB",
+    "address": "Storgatan 12, Stockholm",
+    "contactPerson": "Anna Svensson",
+    "phoneNumber": "070-1234567",
+    "email": "anna@nordicfoods.se"
+  },
+  {
+    "supplierId": 2,
+    "name": "Svenska Råvaror",
+    "address": "Industrivägen 45, Malmö",
+    "contactPerson": "Erik Karlsson",
+    "phoneNumber": "070-7654321",
+    "email": "erik@svenskaravaror.se"
+  },
+  {
+    "supplierId": 3,
+    "name": "Eco Farm Supplies",
+    "address": "Gröna Gatan 7, Göteborg",
+    "contactPerson": "Lisa Berg",
+    "phoneNumber": "070-9876543",
+    "email": "lisa@ecofarm.se"
+  },
+  {
+    "supplierId": 4,
+    "name": "Scandi Ingredients",
+    "address": "Kungsporten 4, Uppsala",
+    "contactPerson": "Ola Jonsson",
+    "phoneNumber": "070-5678901",
+    "email": "ola@scandiingredients.se"
+  },
+  {
+    "supplierId": 5,
+    "name": "Prime Essentials AB",
+    "address": "Vasagatan 20, Stockholm",
+    "contactPerson": "Karin Lind",
+    "phoneNumber": "070-3216549",
+    "email": "karin@primeessentials.se"
+  }
+]

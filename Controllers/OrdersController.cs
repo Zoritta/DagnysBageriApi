@@ -10,11 +10,11 @@ namespace DagnysBageriApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public OrderController(DataContext context)
+        public OrdersController(DataContext context)
         {
             _context = context;
         }

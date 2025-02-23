@@ -5,6 +5,7 @@ namespace DagnysBageriApi.Data
 {
     public class DataContext : DbContext
     {
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<SupplierMaterial> SupplierMaterials { get; set; }
@@ -12,8 +13,6 @@ namespace DagnysBageriApi.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
