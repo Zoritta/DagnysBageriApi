@@ -1,3 +1,4 @@
+using DagnysBageriApi;
 using DagnysBageriApi.Data;
 using Microsoft.EntityFrameworkCore;
 
