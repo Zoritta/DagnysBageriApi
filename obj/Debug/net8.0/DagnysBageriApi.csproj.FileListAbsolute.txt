@@ -2,6 +2,7 @@ C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\appsettings.
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\appsettings.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\customers.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\orderItems.json
+C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\orders.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\products.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\rawmaterials.json
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\suppliermaterials.json
@@ -199,4 +200,3 @@ C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net8.0\refint\Dagny
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net8.0\DagnysBageriApi.pdb
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net8.0\DagnysBageriApi.genruntimeconfig.cache
 C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\obj\Debug\net8.0\ref\DagnysBageriApi.dll
-C:\Users\zohrs\MyPC\School\CSharp2\DagnysBageriApi\bin\Debug\net8.0\Data\json\orders.json
