@@ -12,6 +12,16 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5500")  // Allow frontend (Live Server)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -42,6 +52,8 @@ catch (Exception ex)
     Console.WriteLine("{0}", ex.Message);
     throw;
 }
+
+app.UseCors();
 
 app.MapControllers();
 

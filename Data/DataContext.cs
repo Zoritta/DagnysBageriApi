@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DagnysBageriApi.Entities;
 
 namespace DagnysBageriApi.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -17,6 +18,8 @@ namespace DagnysBageriApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            
             modelBuilder.Entity<SupplierMaterial>()
         .HasKey(sm => new { sm.SupplierId, sm.RawMaterialId });
 
