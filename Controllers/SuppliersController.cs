@@ -13,6 +13,36 @@ namespace DagnysBageriApi.Controllers
     {
         private readonly DataContext _context = context;
 
+        [HttpGet("with-rawmaterials")]
+        public async Task<ActionResult<List<Supplier>>> GetSuppliersWithRawMaterials()
+        {
+            var suppliers = await _context.Suppliers
+                .Include(s => s.SupplierMaterials)
+                    .ThenInclude(sm => sm.RawMaterial)
+                .ToListAsync();
+
+            return Ok(suppliers);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddSupplier([FromBody] Supplier supplier)
+        {
+            if (string.IsNullOrWhiteSpace(supplier.Name))
+            {
+                return BadRequest(new { success = false, message = "Name is required." });
+            }
+
+            if (await _context.Suppliers.AnyAsync(s => s.Name.ToLower() == supplier.Name.ToLower()))
+            {
+                return Conflict(new { success = false, message = $"Supplier '{supplier.Name}' already exists." });
+            }
+
+            _context.Suppliers.Add(supplier);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetSuppliersWithRawMaterials), new { id = supplier.SupplierId }, new { success = true, supplierId = supplier.SupplierId });
+        }
+
         [HttpGet("{supplierName}/materials")]
         public async Task<IActionResult> GetSupplierMaterials(string supplierName)
         {
