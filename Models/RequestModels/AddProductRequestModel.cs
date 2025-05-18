@@ -8,5 +8,6 @@ namespace DagnysBageriApi.Models.RequestModels
         public int QuantityPerPackage { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime ManufacturingDate { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using DagnysBageriApi.Data;
 using DagnysBageriApi.Entities;
 using DagnysBageriApi.Models.RequestModels;
+using DagnysBageriApi.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,93 +12,103 @@ namespace DagnysBageriApi.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly DataContext _context;
+        public ProductsController(DataContext context) => _context = context;
 
-        public ProductsController(DataContext context)
+        // ---------- DTO used for all GET responses ------------------------
+        private static ProductDto ToDto(Product p) => new()
         {
-            _context = context;
-        }
+            ProductId = p.ProductId,
+            Name = p.Name,
+            Price = p.Price,
+            Weight = p.Weight,
+            QuantityPerPack = p.QuantityPerPack,
+            BestBeforeDate = p.BestBeforeDate,
+            ManufactureDate = p.ManufactureDate,
+            ImageUrl = p.ImageUrl         // <-- NEW
+        };
 
+        // ---------- POST /api/products  ----------------------------------
         [HttpPost]
-        public async Task<ActionResult> AddProduct([FromBody] AddProductRequestModel request)
+        public async Task<ActionResult> AddProduct([FromBody] AddProductRequestModel req)
         {
-            if (request == null)
-            {
+            if (req == null)
                 return BadRequest(new { success = false, message = "Invalid product data." });
-            }
 
             var product = new Product
             {
-                Name = request.ProductName,
-                Price = request.PricePerUnit,
-                Weight = request.Weight,
-                QuantityPerPack = request.QuantityPerPackage,
-                BestBeforeDate = request.ExpirationDate,
-                ManufactureDate = request.ManufacturingDate
+                Name = req.ProductName,
+                Price = req.PricePerUnit,
+                Weight = req.Weight,
+                QuantityPerPack = req.QuantityPerPackage,
+                BestBeforeDate = req.ExpirationDate,
+                ManufactureDate = req.ManufacturingDate,
+                ImageUrl = req.ImageUrl           // accept an image URL
             };
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return Ok(new { success = true, message = $"Product '{product.Name}' added successfully." });
+            return CreatedAtAction(nameof(GetProductById),
+                                   new { id = product.ProductId },
+                                   ToDto(product));
         }
 
+        // ---------- GET /api/products  -----------------------------------
         [HttpGet]
-        public async Task<ActionResult> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
             var products = await _context.Products.ToListAsync();
-            if (products == null || products.Count == 0)
-            {
+            if (!products.Any())
                 return NotFound(new { success = false, message = "No products found." });
-            }
 
-            return Ok(new { success = true, products });
+            return Ok(products.Select(ToDto));
         }
 
+        // ---------- GET /api/products/{id}  ------------------------------
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ProductDto>> GetProductById(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound(new { success = false, message = "Product not found." });
+
+            return Ok(ToDto(product));
+        }
+
+        // ---------- GET /api/products/name/{name}  -----------------------
         [HttpGet("name/{productName}")]
-        public async Task<ActionResult> GetProductByName(string productName)
+        public async Task<ActionResult<ProductDto>> GetProductByName(string productName)
         {
-            productName = productName.Trim().ToLower();
-
             var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.Name.ToLower() == productName);
+                                        .FirstOrDefaultAsync(p =>
+                                             p.Name.ToLower() == productName.Trim().ToLower());
 
             if (product == null)
-            {
                 return NotFound(new { success = false, message = $"Product '{productName}' not found." });
-            }
 
-            return Ok(new { success = true, product });
+            return Ok(ToDto(product));
         }
 
+        // ---------- PUT /api/products/name/{name}/price  -----------------
         [HttpPut("name/{productName}/price")]
-        public async Task<ActionResult> UpdateProductPriceByName(string productName, [FromBody] UpdatePriceRequestModel request)
+        public async Task<ActionResult> UpdateProductPriceByName
+            (string productName, [FromBody] UpdatePriceRequestModel req)
         {
-            if (request == null || request.NewPrice <= 0)
-            {
+            if (req == null || req.NewPrice <= 0)
                 return BadRequest(new { success = false, message = "Invalid price data." });
-            }
-
-            productName = productName.Trim().Replace(" ", "").ToLower(); ;
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.Name.Trim().Replace(" ", "").ToLower() == productName);
+                                        .FirstOrDefaultAsync(p =>
+                                             p.Name.Replace(" ", "").ToLower() ==
+                                             productName.Replace(" ", "").ToLower());
 
             if (product == null)
-            {
                 return NotFound(new { success = false, message = $"Product '{productName}' not found." });
-            }
 
-            product.Price = request.NewPrice;
-
+            product.Price = req.NewPrice;
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                success = true,
-                message = $"Price for product '{product.Name}' has been updated.",
-                newPrice = product.Price
-            });
+            return Ok(new { success = true, message = "Price updated.", newPrice = product.Price });
         }
-
     }
 }

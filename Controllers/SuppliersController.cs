@@ -13,7 +13,7 @@ namespace DagnysBageriApi.Controllers
     {
         private readonly DataContext _context = context;
 
-        [HttpGet("with-rawmaterials")]
+        [HttpGet()]
         public async Task<ActionResult<List<Supplier>>> GetSuppliersWithRawMaterials()
         {
             var suppliers = await _context.Suppliers
